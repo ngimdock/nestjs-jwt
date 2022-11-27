@@ -39,8 +39,6 @@ export class AuthController {
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   async refreshTokens(@CurrentUser() userWithBearerToken: UserBearer) {
-    console.log({ userWithBearerToken });
-
     const { id, bearerRtToken } = userWithBearerToken;
 
     return this.authService.refreshTokens(id, bearerRtToken);

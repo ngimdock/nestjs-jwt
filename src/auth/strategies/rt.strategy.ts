@@ -24,7 +24,8 @@ export class RtStrategy extends PassportStrategy(Strategy, JWT_REFRESH) {
       },
     });
 
-    if (!currentUser) throw new UnauthorizedException();
+    if (!currentUser || !currentUser.hashedRt)
+      throw new UnauthorizedException();
 
     const bearerRtToken = req.headers.authorization
       .replace('Bearer', '')

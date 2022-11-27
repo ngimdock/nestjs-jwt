@@ -22,7 +22,8 @@ export class AtStrategy extends PassportStrategy(Strategy, JWT) {
       },
     });
 
-    if (!currentUser) throw new UnauthorizedException('acces denied');
+    if (!currentUser || !currentUser.hashedRt)
+      throw new UnauthorizedException('acces denied');
 
     delete currentUser.hash;
     delete currentUser.hashedRt;
