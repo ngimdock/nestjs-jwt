@@ -9,10 +9,12 @@ import * as argon2 from 'argon2';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthDto } from './dto';
 import { Tokens } from './types';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private config: ConfigService,
     private readonly prismaService: PrismaService,
     private readonly jwtService: JwtService,
   ) {}
@@ -124,12 +126,12 @@ export class AuthService {
 
     const [access_token, refresh_token] = await Promise.all([
       this.jwtService.signAsync(payload, {
-        secret: 'access-token-secret',
+        secret: this.config.get('JWT_SECRET'),
         expiresIn: '1d',
       }),
 
       this.jwtService.signAsync(payload, {
-        secret: 'refresh-token-secret',
+        secret: this.config.get('JWT_REFRESH_SECRET'),
         expiresIn: '7d',
       }),
     ]);
