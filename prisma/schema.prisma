@@ -10,15 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id  Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 
-  email String @unique
-  name String
-  hash String
+  email     String     @unique
+  hash      String
   hashedRt String?
 
   @@map("users")
